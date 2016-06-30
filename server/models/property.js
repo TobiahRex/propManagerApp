@@ -37,10 +37,21 @@ let propertySchema = new mongoose.Schema({
   BuyDate     :   {
     type        :   Date
   },
+  Occupants   :   {
+    max         :   {
+      type        :   Number
+    },
+    total       :   {
+      type        :   Number
+    }
+  },
   Tenants     :   [{
     type        :   ObjectId,
     ref         :   'Client'
-  }]
+  }],
+  MonthlyRent :   {
+    type        :   Number
+  }
 });
 
 propertySchema.statics.makeOne = (reqObj, cb) => {

@@ -22,8 +22,8 @@ let tenantSchema = new mongoose.Schema({
         return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
       },
       message     : '{VALUE} is not a valid email address!'
-    },
-    required    : [true, 'User email required.']
+    }
+    // required    : [true, 'User email required.']
   },
   Username    :  {
     type        :     String,
@@ -31,28 +31,28 @@ let tenantSchema = new mongoose.Schema({
     unique      :     true,
     max         :     12
   },
-  Properties  :  [{
+  Address     :  {
     type        :   ObjectId,
     ref         :   'Property'
-  }]
+  }
 });
 
-clientSchema.statics.buy = (buyObj, cb) => {
-  if(!buyObj) return cb({ERROR : 'Did not provide necessary fields.'});
-  Client.findById(buyObj.buyer, (err1, dbBuyer)=> {
-    Property.findById(buyObj.property, (err2, dbProperty)=>{
+clientSchema.statics.moveIn = (moveObj, cb) => {
+  if(!moveObj) return cb({ERROR : 'Did not provide necessary fields.'});
+  Tenant.findById(moveObj.tenant, (err1, dbTenant)=> {
+    Property.findById(moveObj.property, (err2, dbProperty)=>{
       if(err1 || err2) cb(err1 || err2);
-      if(dbProperty.Owner === dbBuyer._id.toString())                  return cb({ERROR : 'Client already owns that property.'});
-      if(dbBuyer.Properties.indexOf(dbProperty._id.toString()) !== -1) return cb({ERROR : 'Client already owns that property.'});
-
-      dbProperty.Owner      = dbBuyer._id;
-      dbProperty.BuyPrice   = buyObj.buyPrice;
+      // if(dbProperty.Owner === dbTenant._id.toString())                  return cb({ERROR : 'Client already owns that property.'});
+      if(dbProperty.Tenants.indexOf(dbTenant._id.toString()) !== -1) return cb({ERROR : 'Client already lives at that property.'});
+      if(dbProperty.Occupants.max === )
+      dbProperty.Tenants.push(dbTenant._id);
+      dbProperty.BuyPrice   = moveObj.buyPrice;
       dbProperty.BuyDate    = Date.now();
-      dbBuyer.Properties.push(dbProperty._id);
+      dbTenant.Properties.push(dbProperty._id);
 
       dbProperty.save(se1 => {
-        dbBuyer.save(se2 => {
-          (se1 || se2) ? cb(se1 || se2) : cb(null, {SUCCESS : `Property ${dbProperty._id} purchased by ${dbBuyer.Name.first} ${dbBuyer.Name.last} : id ${buyObj.buyer}`});
+        dbTenant.save(se2 => {
+          (se1 || se2) ? cb(se1 || se2) : cb(null, {SUCCESS : `Property ${dbProperty._id} purchased by ${dbTenant.Name.first} ${dbTenant.Name.last} : id ${buyObj.buyer}`});
         });
       });
     });
