@@ -34,36 +34,40 @@ let tenantSchema = new mongoose.Schema({
   Address     :  {
     type        :   ObjectId,
     ref         :   'Property'
+  },
+  Rent        :  {
+    type        :   Number
   }
 });
 
-clientSchema.statics.moveIn = (moveObj, cb) => {
+tenantSchema.statics.moveIn = (moveObj, cb) => {
   if(!moveObj) return cb({ERROR : 'Did not provide necessary fields.'});
   Tenant.findById(moveObj.tenant, (err1, dbTenant)=> {
     Property.findById(moveObj.property, (err2, dbProperty)=>{
       if(err1 || err2) cb(err1 || err2);
-      // if(dbProperty.Owner === dbTenant._id.toString())                  return cb({ERROR : 'Client already owns that property.'});
       if(dbProperty.Tenants.indexOf(dbTenant._id.toString()) !== -1) return cb({ERROR : 'Client already lives at that property.'});
-      if(dbProperty.Occupants.max === )
+      if(dbProperty.Occupants.max === dbProperty.Occupants.total) return cb({ERROR : 'That Property already has Max Occupancy'});
+
       dbProperty.Tenants.push(dbTenant._id);
-      dbProperty.BuyPrice   = moveObj.buyPrice;
-      dbProperty.BuyDate    = Date.now();
+      dbProperty.Occupants.total += 1;
       dbTenant.Properties.push(dbProperty._id);
+      dbTenant.Address    = dbProperty.Address;
+      dbTenant.Rent       = dbProperty.MonthlyRent;
 
       dbProperty.save(se1 => {
         dbTenant.save(se2 => {
-          (se1 || se2) ? cb(se1 || se2) : cb(null, {SUCCESS : `Property ${dbProperty._id} purchased by ${dbTenant.Name.first} ${dbTenant.Name.last} : id ${buyObj.buyer}`});
+          (se1 || se2) ? cb(se1 || se2) : cb(null, {SUCCESS : `Tenant ${dbTenant._id} moved in to ${dbProperty.Address} : ${dbProperty._id}`});
         });
       });
     });
   });
 };
 
-clientSchema.statics.sell = (sellObj, cb) => {
+tenantSchema.statics.sell = (sellObj, cb) => {
   if(!sellObj) return cb({ERROR : 'Did not provide necessary fields.'});
-  Client.findById(sellObj.buyer, (err1, dbBuyer)=>{
+  Tenant.findById(sellObj.buyer, (err1, dbBuyer)=>{
     Property.findById(sellObj.property, (err2, dbProperty)=>{
-      Client.findById(sellObj.seller, (err3, dbSeller)=> {
+      Tenant.findById(sellObj.seller, (err3, dbSeller)=> {
         if(err1 || err2 || err3) return cb(err1 || err2 || err3);
         // console.log('dbProperty.Owner === sellObj.buyer: ', dbProperty.Owner.toString() === sellObj.seller);
         if(dbProperty.Owner.toString() !== sellObj.seller)                           return cb({ERROR : 'Seller is not the Owner.'});
@@ -90,5 +94,5 @@ clientSchema.statics.sell = (sellObj, cb) => {
 };
 
 
-let Client = mongoose.model('Client', clientSchema);
-module.exports = Client;
+let Tenant = mongoose.model('Tenant', tenantSchema);
+module.exports = Tenant;
