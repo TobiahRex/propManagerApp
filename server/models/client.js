@@ -69,17 +69,19 @@ clientSchema.statics.sell = (sellObj, cb) => {
         if(dbSeller.Properties.indexOf(dbProperty._id.toString()) === -1) return cb({ERROR : 'Seller does not own that property.'});
         if(dbProperty.Owner.toString() === sellObj.buyer)                            return cb({ERROR : 'Buyer is the Owner.'});
         if(dbBuyer.Properties.indexOf(dbProperty._id.toString()) !== -1)  return cb({ERROR : 'Buyer already owns that property.'});
-
-        console.log('splice test: ', dbSeller.Properties.splice(dbSeller.Properties.indexOf(dbProperty._id)));
-        // dbSeller.Properties.splice(dbSeller.Properties.indexOf(dbProperty._id));
+        console.log('indexOf: ', dbSeller.Properties.indexOf(dbProperty._id.toString()))
+        console.log('splice test: ', dbSeller.Properties.splice(dbSeller.Properties.indexOf(dbProperty._id.toString())));
+        dbSeller.Properties.splice(dbSeller.Properties.indexOf(dbProperty._id));
         dbBuyer.Properties.push(dbProperty._id);
         dbProperty.Owner     = dbBuyer._id;
         dbProperty.BuyPrice  = sellObj.buyPrice;
         dbProperty.BuyDate   = Date.now();
 
-        dbProperty.save(se1 => {
-          dbBuyer.save(se2 => {
-            se1 || se2 ? cb(se1 || se2) : cb(null, {SUCCESS : `Property ${dbProperty._id} purchased by ${dbBuyer.Name.first} ${dbBuyer.Name.last} : ${sellObj.buyer} \n from ${dbSeller._id}`});
+        dbSeller.save(se1 => {
+          dbProperty.save(se2 => {
+            dbBuyer.save(se3 => {
+              se1 || se2 ? cb(se1 || se2) : cb(null, {SUCCESS : `Property ${dbProperty._id} purchased by ${dbBuyer.Name.first} ${dbBuyer.Name.last} : ${sellObj.buyer} \n from ${dbSeller._id}`});
+            })
           })
         });
       });

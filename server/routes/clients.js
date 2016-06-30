@@ -10,10 +10,22 @@ router.route('/sale')
 .post((req, res)    => Client.buy(req.body, res.handle))
 .put((req, res)     => Client.sell(req.body, res.handle));
 
-router.route('/:id')
-.get((req, res)     => Client.findById(req.params.id, res.handle))
-.delete((req, res)  => Client.findByIdAndRemove(req.params.id, res.handle))
-.put((req, res)     => Client.findByIdAndUpdate(req.params.id, req.body, {new: true}, res.handle));
+router.delete('/reset', (req, res)=> {
+  Property
+  .find({}, (err, dbProperties)=>{
+    dbProperties.forEach(property=>{
+      property.Owner = null;
+      property.save();
+    });
+  });
+  Client.find({}, (err, dbClients)=> {
+    dbClients.forEach(client=> {
+      client.Properties = []
+      client.save();
+    });
+  });
+  res.status(200).send('it worked.');
+});
 
 router.route('/move')
 .post((req, res)    => Client.moveIn(req.body, res.handle))
@@ -24,14 +36,10 @@ router.route('/')
 .post((req, res)    => Client.create(req.body, res.handle))
 .delete((req, res)  => Client.remove({}, res.handle));
 
-router.delete('/reset', (req, res)=> {
-  Property
-  .find({}, (err, dbProperty)=>{
-    dbProperty.Owner = null;
-  });
-
-
-})
+router.route('/:id')
+.get((req, res)     => Client.findById(req.params.id, res.handle))
+.delete((req, res)  => Client.findByIdAndRemove(req.params.id, res.handle))
+.put((req, res)     => Client.findByIdAndUpdate(req.params.id, req.body, {new: true}, res.handle));
 
 
 module.exports = router;
