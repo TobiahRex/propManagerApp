@@ -31,19 +31,11 @@ let propertySchema = new mongoose.Schema({
       type        :     String
     }
   },
-  SoldPrice   :   {
-    type        :   Number
-  },
-  SellDate    :   {
-    type        :   Date,
-    default     :   Date.now
-  },
   BuyPrice    :   {
     type        :   Number
   },
   BuyDate     :   {
-    type        :   Date,
-    default     :   Date.now
+    type        :   Date
   }
 });
 

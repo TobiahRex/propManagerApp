@@ -1,12 +1,14 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
-var Client = require('../models/client');
+const express   = require('express');
+const router    = express.Router();
+const Client    = require('../models/client');
+const Property  = require('../models/property');
+
 
 router.route('/sale')
 .post((req, res)    => Client.buy(req.body, res.handle))
-.delete((req, res)  => Client.sell(req.body, req.params.id, res.handle));
+.put((req, res)     => Client.sell(req.body, res.handle));
 
 router.route('/:id')
 .get((req, res)     => Client.findById(req.params.id, res.handle))
@@ -22,7 +24,14 @@ router.route('/')
 .post((req, res)    => Client.create(req.body, res.handle))
 .delete((req, res)  => Client.remove({}, res.handle));
 
+router.delete('/reset', (req, res)=> {
+  Property
+  .find({}, (err, dbProperty)=>{
+    dbProperty.Owner = null;
+  });
 
+
+})
 
 
 module.exports = router;

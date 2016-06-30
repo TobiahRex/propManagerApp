@@ -36,53 +36,51 @@ let clientSchema = new mongoose.Schema({
   }]
 });
 
-let Qerr = new Error('Did not provide required fields for Query.');
-let Qcheck = (queryData, cb) =>{ if(!queryData) return cb(Qerr);}
-
 clientSchema.statics.buy = (buyObj, cb) => {
-  Qcheck(buyObj, cb);
-  Client.findById(buyObj.client, (err1, dbClient)=> {
+  if(!buyObj) return cb({ERROR : 'Did not provide necessary fields.'});
+  Client.findById(buyObj.buyer, (err1, dbBuyer)=> {
     Property.findById(buyObj.property, (err2, dbProperty)=>{
       if(err1 || err2) cb(err1 || err2);
+      if(dbProperty.Owner === dbBuyer._id.toString())                  return cb({ERROR : 'Client already owns that property.'});
+      if(dbBuyer.Properties.indexOf(dbProperty._id.toString()) !== -1) return cb({ERROR : 'Client already owns that property.'});
 
-      dbProperty.Owner === dbClient._id ? cb({ERROR : 'Client already owns that property.'}) :
-      dbClient.Properties.indexOf(dbProperty._id) !== -1 ? cb({ERROR : 'Client already owns that property.'}) :
-
-      dbProperty.Owner      = dbClient._id;
+      dbProperty.Owner      = dbBuyer._id;
       dbProperty.BuyPrice   = buyObj.buyPrice;
       dbProperty.BuyDate    = Date.now();
-
-      dbClient.Properties.push(dbProperty._id);
+      dbBuyer.Properties.push(dbProperty._id);
 
       dbProperty.save(se1 => {
-        dbClient.save(se2 => {
-          (se1 || se2) ? cb(se1 || se2) : cb(null, {SUCCESS : `Property ${dbProperty._id} purchased by ${dbClient.Name.first} ${dbClient.Name.last}`});
+        dbBuyer.save(se2 => {
+          (se1 || se2) ? cb(se1 || se2) : cb(null, {SUCCESS : `Property ${dbProperty._id} purchased by ${dbBuyer.Name.first} ${dbBuyer.Name.last} : id ${buyObj.buyer}`});
         });
       });
     });
   });
 };
 
-clientSchema.statics.sell = (sellObj, clientId, cb) => {
-  Qcheck(sellObj, cb);
-  Client.findById(clientId, (err1, dbClient)=> {
+clientSchema.statics.sell = (sellObj, cb) => {
+  if(!sellObj) return cb({ERROR : 'Did not provide necessary fields.'});
+  Client.findById(sellObj.buyer, (err1, dbBuyer)=>{
     Property.findById(sellObj.property, (err2, dbProperty)=>{
-      if(err1 || err2) cb(err1 || err2);
-      console.log('property owner?: ', dbProperty.Owner == clientId);
-      console.log('Owner: ', dbProperty.Owner, '\nClient: ', clientId);
+      Client.findById(sellObj.seller, (err3, dbSeller)=> {
+        if(err1 || err2 || err3) return cb(err1 || err2 || err3);
+        // console.log('dbProperty.Owner === sellObj.buyer: ', dbProperty.Owner.toString() === sellObj.seller);
+        if(dbProperty.Owner.toString() !== sellObj.seller)                           return cb({ERROR : 'Seller is not the Owner.'});
+        if(dbSeller.Properties.indexOf(dbProperty._id.toString()) === -1) return cb({ERROR : 'Seller does not own that property.'});
+        if(dbProperty.Owner.toString() === sellObj.buyer)                            return cb({ERROR : 'Buyer is the Owner.'});
+        if(dbBuyer.Properties.indexOf(dbProperty._id.toString()) !== -1)  return cb({ERROR : 'Buyer already owns that property.'});
 
-      dbProperty.Owner != clientId ? cb({ERROR : 'Client does not own that property.'}) :
-      dbClient.Properties.indexOf(dbProperty._id) === -1 ? cb({ERROR : 'Client does not own that property.'}) :
+        console.log('splice test: ', dbSeller.Properties.splice(dbSeller.Properties.indexOf(dbProperty._id)));
+        // dbSeller.Properties.splice(dbSeller.Properties.indexOf(dbProperty._id));
+        dbBuyer.Properties.push(dbProperty._id);
+        dbProperty.Owner     = dbBuyer._id;
+        dbProperty.BuyPrice  = sellObj.buyPrice;
+        dbProperty.BuyDate   = Date.now();
 
-      dbProperty.Owner      = null;
-      dbProperty.SoldPrice  = sellObj.sellPrice;
-      dbProperty.SellDate   = Date.now();
-
-      dbClient.Properties.push(dbProperty._id);
-
-      dbProperty.save(se1 => {
-        dbClient.save(se2 => {
-          (se1 || se2) ? cb(se1 || se2) : cb(null, {SUCCESS : `Property ${dbProperty._id} purchased by ${dbClient.Name.first} ${dbClient.Name.last} : ${sellObj.buyer}`});
+        dbProperty.save(se1 => {
+          dbBuyer.save(se2 => {
+            se1 || se2 ? cb(se1 || se2) : cb(null, {SUCCESS : `Property ${dbProperty._id} purchased by ${dbBuyer.Name.first} ${dbBuyer.Name.last} : ${sellObj.buyer} \n from ${dbSeller._id}`});
+          })
         });
       });
     });
