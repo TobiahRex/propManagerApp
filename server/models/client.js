@@ -2,6 +2,8 @@
 
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Schema.Types.ObjectId;
+const Property = require('./property');
+
 
 let clientSchema = new mongoose.Schema({
   Name        :   {
@@ -34,35 +36,59 @@ let clientSchema = new mongoose.Schema({
   }]
 });
 
-clientSchema.statics.makeOne = (reqObj, cb) => {
-  Client.create(reqObj, (err, newClient)=> {
-    if(err) return cb(err);
-    Client.find(newClient._id, (err, savedClient)=> {
-      err ? cb(err) : cb(null, savedClient);
+let Qerr = new Error('Did not provide required fields for Query.');
+let Qcheck = (queryData, cb) =>{ if(!queryData) return cb(Qerr);}
+
+clientSchema.statics.buy = (buyObj, cb) => {
+  Qcheck(buyObj, cb);
+  Client.findById(buyObj.client, (err1, dbClient)=> {
+    Property.findById(buyObj.property, (err2, dbProperty)=>{
+      if(err1 || err2) cb(err1 || err2);
+
+      dbProperty.Owner === dbClient._id ? cb({ERROR : 'Client already owns that property.'}) :
+      dbClient.Properties.indexOf(dbProperty._id) !== -1 ? cb({ERROR : 'Client already owns that property.'}) :
+
+      dbProperty.Owner      = dbClient._id;
+      dbProperty.BuyPrice   = buyObj.buyPrice;
+      dbProperty.BuyDate    = Date.now();
+
+      dbClient.Properties.push(dbProperty._id);
+
+      dbProperty.save(se1 => {
+        dbClient.save(se2 => {
+          (se1 || se2) ? cb(se1 || se2) : cb(null, {SUCCESS : `Property ${dbProperty._id} purchased by ${dbClient.Name.first} ${dbClient.Name.last}`});
+        });
+      });
     });
   });
 };
 
-clientSchema.statics.getOne = (reqId, cb) => {
-  Client.findById(reqId, (err, dbClient)=> {
-    err ? cb(err) : cb(null, dbClient);
-  });
-};
+clientSchema.statics.sell = (sellObj, clientId, cb) => {
+  Qcheck(sellObj, cb);
+  Client.findById(clientId, (err1, dbClient)=> {
+    Property.findById(sellObj.property, (err2, dbProperty)=>{
+      if(err1 || err2) cb(err1 || err2);
+      console.log('property owner?: ', dbProperty.Owner == clientId);
+      console.log('Owner: ', dbProperty.Owner, '\nClient: ', clientId);
 
-clientSchema.statics.removeOne = (reqId, cb) => {
-  Client.findByIdAndRemove(reqId, (err, oldClient) => {
-    err ? cb(err) : cb(null, {SUCCESS: `Client: ${oldClient} has been removed.`});
-  });
-};
+      dbProperty.Owner != clientId ? cb({ERROR : 'Client does not own that property.'}) :
+      dbClient.Properties.indexOf(dbProperty._id) === -1 ? cb({ERROR : 'Client does not own that property.'}) :
 
-clientSchema.statics.updateOne = (editObj, cb) => {
-  Client.findByIdAndUpdate(editObj.id, {$set : editObj.body}, (err, oldDbClient)=> {
-    if(err) return cb(err);
-    Client.findById(oldDbClient._id, (err, savedClient)=> {
-      err ? cb(err) : cb(null, savedClient);
+      dbProperty.Owner      = null;
+      dbProperty.SoldPrice  = sellObj.sellPrice;
+      dbProperty.SellDate   = Date.now();
+
+      dbClient.Properties.push(dbProperty._id);
+
+      dbProperty.save(se1 => {
+        dbClient.save(se2 => {
+          (se1 || se2) ? cb(se1 || se2) : cb(null, {SUCCESS : `Property ${dbProperty._id} purchased by ${dbClient.Name.first} ${dbClient.Name.last} : ${sellObj.buyer}`});
+        });
+      });
     });
   });
 };
+
 
 let Client = mongoose.model('Client', clientSchema);
 module.exports = Client;
