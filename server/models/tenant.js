@@ -15,16 +15,26 @@ let tenantSchema = new mongoose.Schema({
       type        :   String
     }
   },
-  // Email       :   {
-  //   type        :     String,
-  //   validate    : {
-  //     validator   : function(v){
-  //       return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
-  //     },
-  //     message     : '{VALUE} is not a valid email address!'
-  //   },
-  //   required    : [true, 'User email required.']
-  // },
+  Email       :   {
+    type        :     String,
+    validate    : {
+      validator   : function(v){
+        return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
+      },
+      message     : '{VALUE} is not a valid email address!'
+    }
+    // ,
+    // required    : [true, 'User email required.']
+  },
+  PhoneNumber :  {
+    type        :   String,
+    validate    :   {
+      validator   :   function(v){
+        return /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/.text(v);
+      },
+      message     :   '{VALUE} is not a valid format'
+    }
+  },
   Username    :  {
     type        :     String,
     required    :     true,

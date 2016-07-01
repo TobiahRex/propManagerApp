@@ -14,9 +14,9 @@ angular.module('fullStackTemplate')
     });
   };
 
-  loginCheck();
-
-  $scope.$on('loggedIn', function(){loginCheck()});
-  $scope.$on('loggedOut', function(){loginCheck()});
+  // loginCheck();
+  //
+  // $scope.$on('loggedIn', function(){loginCheck()});
+  // $scope.$on('loggedOut', function(){loginCheck()});
 
 });

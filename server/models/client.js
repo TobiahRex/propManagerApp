@@ -24,6 +24,15 @@ let clientSchema = new mongoose.Schema({
     },
     required    : [true, 'User email required.']
   },
+  PhoneNumber :  {
+    type        :   String,
+    validate    :   {
+      validator   :   function(v){
+        return /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/.text(v);
+      },
+      message     :   '{VALUE} is not a valid format'
+    }
+  },
   Username    :  {
     type        :     String,
     required    :     true,
