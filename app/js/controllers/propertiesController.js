@@ -11,6 +11,7 @@ angular.module('fullStackTemplate')
     .then(res=> {
       Properties = res.data;
     })
+    .catch(()=> $scope.properties);
   }
 
   getProperties();
