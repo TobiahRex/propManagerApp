@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/api', require('./server/routes/api'));
-app.use('/',    require('./server/routes/index'));
+app.get('/',    require('./server/routes/index'));
 
 io.on('connection', (socket) => {
   console.log('Client Connected @', socket.handshake.address);

@@ -42,7 +42,8 @@ let propertySchema = new mongoose.Schema({
       type        :   Number
     },
     total       :   {
-      type        :   Number
+      type        :   Number,
+      default     :   0
     }
   },
   Tenants     :   [{

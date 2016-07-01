@@ -15,6 +15,7 @@ router.delete('/reset', (req, res)=> {
   .find({}, (err, dbProperties)=>{
     dbProperties.forEach(property=>{
       property.Owner = null;
+      property.Tenants = [];
       property.save();
     });
   });

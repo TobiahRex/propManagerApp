@@ -27,14 +27,19 @@ router.delete('/reset', (req, res)=> {
   res.status(200).send('Fields Cleared.');
 });
 
+
+router.route('/')
+.get((req, res)     => Tenant.find({}, res.handle))
+.post((req, res)    =>
+{
+  console.log('req.body: ', req.body);
+  Tenant.create(req.body, res.handle)
+})
+.delete((req, res)  => Tenant.remove({}, res.handle));
+
 router.route('/:id')
 .get((req, res)     => Tenant.findById(req.params.id, res.handle))
 .delete((req, res)  => Tenant.findByIdAndRemove(req.params.id, res.handle))
 .put((req, res)     => Tenant.findByIdAndUpdate(req.params.id, req.body, {new: true}, res.handle));
-
-router.route('/')
-.get((req, res)     => Tenant.find({}, res.handle))
-.post((req, res)    => Tenant.create(req.body, res.handle))
-.delete((req, res)  => Tenant.remove({}, res.handle));
 
 module.exports = router;
