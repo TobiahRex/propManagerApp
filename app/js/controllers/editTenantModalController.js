@@ -1,11 +1,14 @@
 'use strict';
 
 angular.module('fullStackTemplate')
-.controller('editTenantModalController', function ($scope, $uibModalInstance, Tenant, thisTenant) {
+.controller('editTenantModalController', function ($scope, $uibModalInstance, Tenant, editTenant) {
   console.log('editTenantModalCtrl');
 
-  console.log('editTenant: ', thisTenant );
-  $scope.tenant.firstname = thisTenant.tenant.Name.first;
+  console.log('editTenant: ', editTenant.tenant );
+
+  $scope.tenant = editTenant.tenant;
+
+  console.log('$scope.tenant: ', $scope.tenant);
 
   $scope.createTenant = () => {
     console.log('$scope.tenant: ', $scope.tenant);

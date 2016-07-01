@@ -49,15 +49,13 @@ angular.module('fullStackTemplate')
   ////////////////////////////////////////////////////////////////////////
   /// Edit Modal
   $scope.edit = tenant => {
-    console.log('this tenant: ', tenant);
     var modalInstance = $uibModal.open({
       animation: true,
       templateUrl: '/uib/template/modal/edit-tenant-modal.html',
       controller: 'editTenantModalController',
       size: 'lg',
-      resolve : { thisTenant : ()=> tenant }
+      resolve : { editTenant : ()=> tenant }
     });
-
     modalInstance.result.then(function (selectedItem) {
       $scope.selected = selectedItem;
     }, function () {

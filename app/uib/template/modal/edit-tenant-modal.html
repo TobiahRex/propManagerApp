@@ -8,9 +8,9 @@
     <form class="form-inline">
       <div class="form-group">
         <label  class='text-info' for="first-name">First Name</label>
-        <input ng-model='tenant.firstname' type="text" class="form-control" id="first-name" placeholder="Clark">
+        <input ng-model='tenant.Name.first' type="text" class="form-control" id="first-name" placeholder='{{tenant.Name.first}}'>
         <label class='text-info'  for="last-name">Last Name</label>
-        <input ng-model='tenant.lastname' type="text" class="form-control" id="last-name" placeholder="Kent">
+        <input ng-model='tenant.lastname' type="text" class="form-control" id="last-name" placeholder='{{tenant.Name.last}}'>
       </div>
       <div class="form-group">
         <label class='text-info' for="email">Email</label>
