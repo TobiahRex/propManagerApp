@@ -7,6 +7,11 @@ angular.module('fullStackTemplate')
     url             :    '/property',
     templateUrl     :    'html/properties-main.html',
     controller      :    'propertiesController'
-  });
+  })
+  .state('properties.add', {
+    url             :   '/property/add',
+    temlateUrl      :   'html/add-property.html',
+    controller      :   'propertiesController'
+  })
   $urlRouterProvider.otherwise('/');
 });

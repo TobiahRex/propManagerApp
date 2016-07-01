@@ -9,7 +9,7 @@ angular.module('fullStackTemplate')
 
   this.reset      =   ()          =>  $http.delete    ('/api/tenants/reset');
 
-  this.getAll     =   ()          =>  $http.get       ('/api/tenants/');
+  this.getAll     =   ()          =>  $http.get       ('/api/tenants/details');
   this.addOne     = newTenant     =>  $http.post      ('/api/tenants/', newTenant);
   this.dumpAll    =   ()          =>  $http.delete    ('/api/tenants/');
 

@@ -2,9 +2,9 @@
 
 const express   = require('express');
 const router    = express.Router();
-const Client    = require('../models/client');
-const Property  = require('../models/property');
 const Tenant    = require('../models/tenant');
+
+router.get('/details', (req, res)=> Tenant.find({}).populate('Address').exec(res.handle));
 
 router.route('/move')
 .post((req, res)    => Tenant.moveIn(req.body, res.handle))

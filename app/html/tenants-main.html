@@ -10,8 +10,9 @@
           <th>#</th>
           <th>Name</th>
           <th>Phone</th>
+          <th>Address</th>
           <th>Email</th>
-          <th>Owns</th>
+          <th>Rent</th>
         </tr>
       </thead>
       <tbody>
@@ -19,7 +20,8 @@
           <td>{{tenant.$index}}</td>
           <td>{{tenant.Name.first}} {{tenant.Name.last}}</td>
           <td>{{tenant.PhoneNumber}}</td>
-          <td>{{tenant.Email}}</td>
+          <td>{{tenant.Address}}</td>
+          <td>{{tenant.Rent}}</td>
           <td>
             <ul ng-repeat='property in tenant.Properties'>
               <!-- <td><pre>{{tenant.Properties}}</pre></td> -->
