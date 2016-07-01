@@ -3,13 +3,12 @@
     <i class="fa fa-globe fa-5x fa-fw margin-bottom"></i>
     <h3 class="text-center">Properties</h3>
   </div>
-  <div class="template-header text-center">
+  <div class="template-header">
     <table class="table table-striped table-hover ">
       <thead>
         <tr>
           <th>#</th>
           <th>Owner</th>
-          <th>Posted Date</th>
           <th>Value</th>
           <th>Address</th>
           <th>Occupants</th>
@@ -20,52 +19,56 @@
       <tbody>
         <tr class='active' ng-repeat="property in properties track by $index">
           <td>{{property.$index}}</td>
-          <td>{{property.Owner}}</td>
-          <td>{{property.Value}}</td>
-          <td>{{property.Address}}</td>
-          <td>{{property.Occupants}}</td>
-          <td>{{property.Tenants}}</td>
-          <td>{{property.MonthlyRent}}</td>
+          <td><pre>{{property.Owner}}</pre></td>
+          <td>{{property.Value | currency}}</td>
+          <td><pre>{{property.Address | json}}</pre></td>
+          <td><pre>{{property.Occupants}}</pre></td>
+          <td>
+            <ul class='unlisted' ng-repeat='tenant in property.tenants'>
+              <li><pre>{{tenant}}</pre></li>
+            </ul>
+          </td>
+          <td>{{property.MonthlyRent | currency}}</td>
         </tr>
         <!-- <tr>
-          <td>2</td>
-          <td>Column content</td>
-          <td>Column coasdfntent</td>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column asdfasdf</td>
-        </tr>
-        <tr class="info">
-          <td>3</td>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="success">
-          <td>4</td>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="danger">
-          <td>5</td>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="warning">
-          <td>6</td>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr>
-        <tr class="active">
-          <td>7</td>
-          <td>Column content</td>
-          <td>Column content</td>
-          <td>Column content</td>
-        </tr> -->
-      </tbody>
-    </table>
+        <td>2</td>
+        <td>Column content</td>
+        <td>Column coasdfntent</td>
+        <td>Column content</td>
+        <td>Column content</td>
+        <td>Column content</td>
+        <td>Column content</td>
+        <td>Column asdfasdf</td>
+      </tr>
+      <tr class="info">
+      <td>3</td>
+      <td>Column content</td>
+      <td>Column content</td>
+      <td>Column content</td>
+    </tr>
+    <tr class="success">
+    <td>4</td>
+    <td>Column content</td>
+    <td>Column content</td>
+    <td>Column content</td>
+  </tr>
+  <tr class="danger">
+  <td>5</td>
+  <td>Column content</td>
+  <td>Column content</td>
+  <td>Column content</td>
+</tr>
+<tr class="warning">
+<td>6</td>
+<td>Column content</td>
+<td>Column content</td>
+<td>Column content</td>
+</tr>
+<tr class="active">
+<td>7</td>
+<td>Column content</td>
+<td>Column content</td>
+<td>Column content</td>
+</tr> -->
+</tbody>
+</table>

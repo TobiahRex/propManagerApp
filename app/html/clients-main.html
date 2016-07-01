@@ -1,0 +1,39 @@
+<div class="container-fluid">
+  <div class="template-header text-center">
+    <i class="fa fa-group fa-5x fa-fw margin-bottom"></i>
+    <h3 class="text-center">Clients</h3>
+  </div>
+  <div class="template-header">
+    <table class="table table-striped table-hover ">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Owns</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class='active' ng-repeat="property in properties track by $index">
+          <td>{{property.$index}}</td>
+          <td><pre>{{property.Name.first}} {{property.Name.last}}</pre></td>
+          <td>{{property.Value | currency}}</td>
+          <td><pre>{{property.Address | json}}</pre></td>
+          <td><pre>{{property.Occupants}}</pre></td>
+          <td>
+            <ul class='unlisted' ng-repeat='property in Clients.properties'>
+              <li><pre>{{property | json}}</pre></li>
+            </ul>
+          </td>
+        </tr>
+
+        <!-- <tr class="info">
+        <tr class="success">
+        <tr class="danger">
+        <tr class="warning">
+        <tr class="active">
+      </tr>
+    -->
+  </tbody>
+</table>

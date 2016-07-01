@@ -6,10 +6,14 @@ angular.module('fullStackTemplate')
 
   let Properties = [];
 
+  console.log('Property: ', Property);
+
   let getProperties = () => {
     Property.getAll()
     .then(res=> {
+      console.log(res.data);
       Properties = res.data;
+      $scope.properties = Properties
     })
     .catch(()=> $scope.properties);
   }
