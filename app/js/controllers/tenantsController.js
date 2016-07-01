@@ -56,8 +56,22 @@ angular.module('fullStackTemplate')
       size: 'lg',
       resolve : { editTenant : ()=> tenant }
     });
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
+    modalInstance.result.then(function (editedTenant) {
+      console.log('editedTenant: ', editedTenant);
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+  $scope.delete = tenant => {
+    var modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: '/uib/template/modal/edit-tenant-modal.html',
+      controller: 'editTenantModalController',
+      size: 'lg',
+      resolve : { deleteTenant : ()=> tenant }
+    });
+    modalInstance.result.then(function (editedTenant) {
+      console.log('editedTenant: ', editedTenant);
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
     });
