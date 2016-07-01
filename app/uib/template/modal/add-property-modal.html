@@ -1,0 +1,42 @@
+
+<div class="modal-header">
+  <h3 class="text-center modal-title"> <i class="text-success fa fa-2x fa-plus-circle"></i> <br> Add New Property</h3>
+</div>
+<div class="modal-body">
+
+  <form>
+    <form class="form-inline">
+      <div class="form-group">
+        <label  class='text-primary' for="first-name">First name</label>
+        <input ng-model='tenant.firstname' type="text" class="form-control" id="first-name" placeholder="Clark">
+        <label class='text-primary'  for="last-name">Last name</label>
+        <input ng-model='tenant.lastname' type="text" class="form-control" id="last-name" placeholder="Kent">
+      </div>
+      <div class="form-group">
+        <label class='text-primary' for="email">Email</label>
+        <input ng-model='tenant.email' type="email" class="form-control" id="email" placeholder="clark.kent@dailyplanet.com">
+      </div>
+      <div class="form-group">
+        <label  class="text-primary control-label" for="phone">Phone Number</label>
+        <input ng-model='tenant.phone' type="tel" name='usrtel' class="form-control form-control-success" id="phone" placeholder="123-456-7890">
+      </div>
+    </form>
+    <!-- <ul>
+    <li ng-repeat="item in items">
+    <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
+  </li>
+</ul>
+Selected: <b>{{ selected.item }}</b> -->
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col-xs-8">
+      <p class="pull-left"> <span class="text-primary">Name</span> & <span class="text-primary">Email</span> fields are <span class="text-danger">REQUIRED.</span></p>
+    </div>
+    <div class="col-xs-4">
+      <button class="btn btn-primary" type="submit" ng-click='createTenant()'>Add</button>
+      <button class="btn btn-warning" type="submit" ng-click='cancel()'>Cancel</button>
+    </div>
+  </div>
+</div>
+</form>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('fullStackTemplate')
-.controller('propertiesController', function($scope, $state, Property){
+.controller('propertiesController', function($scope, $state, $uibModal,  $log, Property){
   console.log('propertyCtrl');
 
   let Properties = [];
@@ -67,7 +67,7 @@ angular.module('fullStackTemplate')
       $log.info('Modal dismissed at: ' + new Date());
     });
   };
-  
+
   ////////////////////////////////////////////////////////////////////////
   /// Delete Modal
   $scope.deleteProperty = property => {
