@@ -4,7 +4,7 @@ angular.module('fullStackTemplate')
 .config(function($stateProvider, $urlRouterProvider){
   $stateProvider
   .state('tenants', {
-    url             :    '/',
+    url             :    '/tenants',
     templateUrl     :    'html/tenants-main.html',
     controller      :    'tenantsController'
   });

@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="template-header text-center">
-    <i class="fa fa-group fa-5x fa-fw margin-bottom"></i>
-    <h3 class="text-center">Clients</h3>
+    <i class="fa fa-building fa-5x fa-fw margin-bottom"></i>
+    <h3 class="text-center">Tenants</h3>
   </div>
   <div class="template-header">
     <table class="table table-striped table-hover ">
@@ -15,14 +15,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr class='active' ng-repeat="client in clients track by $index">
-          <td>{{client.$index}}</td>
-          <td>{{client.Name.first}} {{client.Name.last}}</td>
-          <td>{{client.PhoneNumber}}</td>
-          <td>{{client.Email}}</td>
+        <tr class='active' ng-repeat="tenant in tenants track by $index">
+          <td>{{tenant.$index}}</td>
+          <td>{{tenant.Name.first}} {{tenant.Name.last}}</td>
+          <td>{{tenant.PhoneNumber}}</td>
+          <td>{{tenant.Email}}</td>
           <td>
-            <ul ng-repeat='property in client.Properties'>
-              <!-- <td><pre>{{client.Properties}}</pre></td> -->
+            <ul ng-repeat='property in tenant.Properties'>
+              <!-- <td><pre>{{tenant.Properties}}</pre></td> -->
               <li>{{property}}</li>
             </ul>
           </td>

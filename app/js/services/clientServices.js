@@ -16,6 +16,4 @@ angular.module('fullStackTemplate')
   this.getOne     =   id       =>  $http.get      (`api/clients/${id}`);
   this.deleteOne  =   id       =>  $http.delete   (`api/clients/${id}`);
   this.editOne    =   id       =>  $http.put      (`api/clients/${id}`);
-
-  module.exports = router;
 });
