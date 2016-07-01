@@ -5,7 +5,7 @@ angular.module('fullStackTemplate')
   console.log('deleteTenantModalCtrl');
   $scope.tenant = deleteTenant.tenant;
   // console.log('$scope.tenant: ', $scope.tenant);
-  $scope.submitChanges = () => {
+  $scope.deleteTenant = () => {
     let deleteTenant = $scope.tenant
     $uibModalInstance.close(deleteTenant);
   };

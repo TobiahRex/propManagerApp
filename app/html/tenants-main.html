@@ -16,7 +16,7 @@
           <th class='text-center'>Address</th>
           <th class='text-center'>Email</th>
           <th class='text-center'>Rent</th>
-          <th class='text-center'>Tenants</th>
+          <th class='text-right'>Tenants</th>
           <th class='text-center'>Edit | Delete</th>
         </tr>
       </thead>
@@ -35,7 +35,7 @@
             </ul>
           </td>
           <td class='text-center'>
-            <button class="btn btn-danger"> <i class="fa fa-trash"></i> Delete</button> <button ng-click='edit({tenant})' class="btn btn-info"> <i class="fa fa-edit"></i> Edit</button>
+            <button ng-click='deleteTenant({tenant})' class="btn btn-danger"> <i class="fa fa-trash"></i> Delete</button> <button ng-click='edit({tenant})' class="btn btn-info"> <i class="fa fa-edit"></i> Edit</button>
           </td>
         </tr>
 

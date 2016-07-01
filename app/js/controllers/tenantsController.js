@@ -3,7 +3,6 @@
 angular.module('fullStackTemplate')
 .controller('tenantsController', function($scope, $state, Tenant, $uibModal, $log){
   console.log('tenantCtrl');
-
   let Tenants = [];
 
   let getTenant = () => {
@@ -13,8 +12,7 @@ angular.module('fullStackTemplate')
       $scope.tenants = Tenants
     })
     .catch(()=> console.log('you suck try again'));
-  }
-
+  };
   getTenant();
 
   $scope.delete = (index) => {
@@ -62,16 +60,19 @@ angular.module('fullStackTemplate')
       $log.info('Modal dismissed at: ' + new Date());
     });
   };
-  $scope.delete = tenant => {
+
+    ////////////////////////////////////////////////////////////////////////
+    /// Delete Modal
+  $scope.deleteTenant = tenant => {
     var modalInstance = $uibModal.open({
       animation: true,
-      templateUrl: '/uib/template/modal/edit-tenant-modal.html',
-      controller: 'editTenantModalController',
+      templateUrl: '/uib/template/modal/delete-tenant-modal.html',
+      controller: 'deleteTenantModalController',
       size: 'lg',
       resolve : { deleteTenant : ()=> tenant }
     });
-    modalInstance.result.then(function (editedTenant) {
-      console.log('editedTenant: ', editedTenant);
+    modalInstance.result.then(function (deleteTenant) {
+      console.log('deleteTenant: ', deleteTenant);
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
     });
