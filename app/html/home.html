@@ -1,10 +1,48 @@
 <div class="container">
-  <h1>
-    Home
-  </h1>
-  <hr>
-  <pre>
-    {{ allTheStuff | json }}
-  </pre>
+  <div class="template-header jumbotron text-center">
+    <h1>RexCorp TimeShare</h1>
+  </div>
+  <!-- TEMPLATES -->
+  <!-- TEMPLATES -->
+  <div class="template-header text-center">
 
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <td>
+            <a ui-sref="properties" ><i class="fa fa-globe fa-5x fa-fw margin-bottom text-success"></i></a>
+          </td>
+          <td>
+            <a ui-sref="clients"><i class="fa fa-group fa-5x fa-fw margin-bottom text-info"></i></a>
+          </td>
+          <td>
+            <a ui-sref="tenants"><i class="fa fa-building fa-5x fa-fw margin-bottom text-warning"></i></a>
+          </td>
+        </tr>
+        <tr></td>
+          <td>
+            <p>
+              <b>
+                <h4 class='text-success'> Properties </h4>
+              </b>
+            </p>
+          </td>
+          <td>
+            <p>
+              <b>
+                <h4 class='text-info'>Clients</h4>
+              </b>
+            </p>
+          </td>
+          <td>
+            <p>
+              <b>
+                <h4 class='text-warning'> Tenants </h4>
+              </b>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
