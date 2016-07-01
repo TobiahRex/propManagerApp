@@ -67,9 +67,9 @@ tenantSchema.statics.moveOut = (moveObj, cb) => {
   Tenant.findById(moveObj.tenant, (err1, dbTenant)=>{
     Property.findById(moveObj.property, (err2, dbProperty)=>{
       if(err1 || err2) return cb(err1 || err2);
-
-      if(dbProperty.Tenants.indexOf(dbTenant._id) === -1)   return cb({ERROR : 'Tenant does not live at that Property. INCORRECT TENANT'});
-      if(dbTenant.Address !=== dbProperty._id)              return cb({ERROR : 'Tenant lives at a different address. INCORRECT ADDRESS'});
+      console.log("dbTenant.Address !== dbProperty._id: ", dbTenant.Address.toString() !== dbProperty._id.toString());
+      if(dbProperty.Tenants.indexOf(dbTenant._id) === -1)             return cb({ERROR : 'Tenant does not live at that Property. INCORRECT TENANT'});
+      if(dbTenant.Address.toString() !== dbProperty._id.toString())   return cb({ERROR : 'Tenant lives at a different address. INCORRECT ADDRESS'});
 
       dbProperty.Tenants.splice(dbProperty.Tenants.indexOf(dbTenant._id));
       dbProperty.Occupants.total -= 1;
