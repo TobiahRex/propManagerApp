@@ -6,7 +6,7 @@ angular.module('fullStackTemplate')
 
   let Properties = [];
 
-  let getProperties () => {
+  let getProperties = () => {
     Property.getAll()
     .then(res=> {
       Properties = res.data;
