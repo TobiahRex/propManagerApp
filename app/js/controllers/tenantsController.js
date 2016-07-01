@@ -5,12 +5,10 @@ angular.module('fullStackTemplate')
   console.log('tenantCtrl');
 
   let Tenants = [];
-  console.log('Tenant: ', Tenant);
 
   let getTenant = () => {
     Tenant.getAll()
     .then(res=> {
-      console.log(res.data);
       Tenants = res.data;
       $scope.tenants = Tenants
     })
@@ -30,15 +28,34 @@ angular.module('fullStackTemplate')
   };
 
   //////////////////////////////////////////////////////////////////////
-  // $scope.items = ['item1', 'item2', 'item3'];
-
+  // Add Modal
   $scope.add = () => {
-
     var modalInstance = $uibModal.open({
+      keyboard: true,
       animation: true,
-      templateUrl: '/uib/template/modal/add-modal.html',
+      templateUrl: '/uib/template/modal/add-tenant-modal.html',
       controller: 'addTenantModalController',
       size: 'lg',
+    });
+
+    modalInstance.result.then(function (tenant) {
+      console.log('tenant: ', tenant);
+    }, function (something) {
+      console.log('something: ', something);
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+
+  ////////////////////////////////////////////////////////////////////////
+  /// Edit Modal
+  $scope.edit = tenant => {
+    console.log('this tenant: ', tenant);
+    var modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: '/uib/template/modal/edit-tenant-modal.html',
+      controller: 'editTenantModalController',
+      size: 'lg',
+      resolve : { thisTenant : ()=> tenant }
     });
 
     modalInstance.result.then(function (selectedItem) {
