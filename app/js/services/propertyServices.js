@@ -1,21 +1,19 @@
 'use strict';
 
 angular.module('fullStackTemplate')
-.service('Tenant', function($http){
+.service('Property', function($http){
 
-  this.moveIn     =   moveInObj   =>  $http.post('/api/tenants/move', moveInObj);
+  this.getDetails =   ()          =>  $http.get       ('/api/properties/details', moveInObj);
 
-  this.moveOut    =   moveOutObj  =>  $http.put('/api/tenants/move', moveInObj);
+  this.reset      =   ()          =>  $http.delete    ('/api/properties/reset');
 
-  this.reset      =   ()          =>  $http.delete('/reset');
+  this.getAll     =   ()          =>  $http.get       ('/api/properties/');
+  this.addOne     = newTenant     =>  $http.post      ('/api/properties/', newTenant);
+  this.dumpAll    =   ()          =>  $http.delete    ('/api/properties/');
 
-  this.getAll     =   ()          =>  $http.get('/');
-  this.addOne     = newTenant     =>  $http.post('/', newTenant);
-  this.dumpAll    =   ()          =>  $http.delete('/');
-
-  this.getOne     =   id          =>  $http.get(`/${id}`);
-  this.deleteOne  =   id          =>  $http.delete(`/${id}`);
-  this.editOne    =   id          =>  $http.put(`/${id}`);
+  this.getOne     =   id          =>  $http.get       (`/api/properties/${id}`);
+  this.deleteOne  =   id          =>  $http.delete    (`/api/properties/${id}`);
+  this.editOne    =   id          =>  $http.put       (`/api/properties/${id}`);
 
   module.exports = router;
 });

@@ -85,32 +85,26 @@ propertySchema.statics.updateOne = (editObj, cb) => {
   });
 };
 
-propertySchema.statics.sell = (clientId, propId, cb) => {
-  if(!clientId || !propId) return cb({ERROR : 'Did not provide necessary Ids'});
-  Property.findById(propId, (err1, dbProperty)=> {
-    Client.findById(clientId.client, (err2, dbClient)=> {
-      (err1 || err2) ? cb(err1 || err2) :
-      dbProperty.Owner === dbClient._id ? cb({ERROR : 'Client already owns this property.'}) :
-      dbClient.Properties.indexOf(dbProperty._id) !== -1 ? cb({ERROR : 'Client already owns this property.'}) :
-
-      dbClient.Properties.push(dbProperty._id);
-      dbProperty.Owner = dbClient._id;
-      dbProperty.SellDate = Date.now();
-
-      dbClient.save(errS1 => {
-        dbProperty.save(errS2 => {
-          (errS1 || errS2) ? cb(errS1 || errS2) : cb(null, {SUCCESS : `Property ${dbProperty._id} has been sold to Client: ${dbClient.Name.first} ${dbClient.Name.last}`});
-        });
-      });
-    });
-  });
-};
-
-propertySchema.statics.toMarket = (propId, cb) => {
-  if(!moveObj) return cb({ERROR : 'DO NOT '});
-
-}
-
+// propertySchema.statics.sell = (clientId, propId, cb) => {
+//   if(!clientId || !propId) return cb({ERROR : 'Did not provide necessary Ids'});
+//   Property.findById(propId, (err1, dbProperty)=> {
+//     Client.findById(clientId.client, (err2, dbClient)=> {
+//       (err1 || err2) ? cb(err1 || err2) :
+//       dbProperty.Owner === dbClient._id ? cb({ERROR : 'Client already owns this property.'}) :
+//       dbClient.Properties.indexOf(dbProperty._id) !== -1 ? cb({ERROR : 'Client already owns this property.'}) :
+//
+//       dbClient.Properties.push(dbProperty._id);
+//       dbProperty.Owner = dbClient._id;
+//       dbProperty.SellDate = Date.now();
+//
+//       dbClient.save(errS1 => {
+//         dbProperty.save(errS2 => {
+//           (errS1 || errS2) ? cb(errS1 || errS2) : cb(null, {SUCCESS : `Property ${dbProperty._id} has been sold to Client: ${dbClient.Name.first} ${dbClient.Name.last}`});
+//         });
+//       });
+//     });
+//   });
+// };
 
 let Property = mongoose.model('Property', propertySchema);
 module.exports = Property;
