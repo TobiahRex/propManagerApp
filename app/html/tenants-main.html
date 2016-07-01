@@ -1,32 +1,41 @@
 <div class="container-fluid">
   <div class="template-header text-center">
-    <i class="fa fa-building fa-5x fa-fw margin-bottom"></i>
+    <i class="fa fa-building fa-5x text-warning fa-fw margin-bottom"></i>
     <h3 class="text-center">Tenants</h3>
+    <hr>
+    <button class="btn btn-primary" ng-click='add()'> <i class="fa fa-3x fa-plus-circle"></i></button>
   </div>
+  <br>
   <div class="template-header">
     <table class="table table-striped table-hover ">
       <thead>
         <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Phone</th>
-          <th>Address</th>
-          <th>Email</th>
-          <th>Rent</th>
+          <th class='text-center'>#</th>
+          <th class='text-center'>Name</th>
+          <th class='text-center'>Phone</th>
+          <th class='text-center'>Address</th>
+          <th class='text-center'>Email</th>
+          <th class='text-center'>Rent</th>
+          <th class='text-center'>Tenants</th>
+          <th class='text-center'>Edit | Delete</th>
         </tr>
       </thead>
       <tbody>
         <tr class='active' ng-repeat="tenant in tenants track by $index">
-          <td>{{tenant.$index}}</td>
-          <td>{{tenant.Name.first}} {{tenant.Name.last}}</td>
-          <td>{{tenant.PhoneNumber}}</td>
-          <td>{{tenant.Address}}</td>
-          <td>{{tenant.Rent}}</td>
+          <td class='text-center'>{{tenant.$index}}</td>
+          <td class='text-center'>{{tenant.Name.first}} {{tenant.Name.last}}</td>
+          <td class='text-center'>{{tenant.PhoneNumber}}</td>
+          <td class='text-center'>{{tenant.Address}}</td>
+          <td class='text-center'>{{tenant.Email}}</td>
+          <td class='text-center'>{{tenant.Rent}}</td>
           <td>
             <ul ng-repeat='property in tenant.Properties'>
               <!-- <td><pre>{{tenant.Properties}}</pre></td> -->
               <li>{{property}}</li>
             </ul>
+          </td>
+          <td class='text-center'>
+            <button class="btn btn-danger"> <i class="fa fa-trash"></i> Delete</button> <button class="btn btn-info"> <i class="fa fa-edit"></i> Edit</button>
           </td>
         </tr>
 
